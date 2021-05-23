@@ -1,0 +1,42 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+repos:
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.0.1
+    hooks:
+    -   id: trailing-whitespace
+    -   id: end-of-file-fixer
+    -   id: check-yaml
+    -   id: check-added-large-files
+    -   id: check-json
+    -   id: pretty-format-json
+    -   id: check-merge-conflict
+    -   id: check-symlinks
+    -   id: destroyed-symlinks
+    -   id: detect-aws-credentials
+    -   id: detect-private-key
+    -   id: mixed-line-ending
+    -   id: name-tests-test
+    -   id: check-xml
+
+-   repo: https://github.com/warpnet/salt-lint
+    rev: v0.5.2
+    hooks:
+      - id: salt-lint
+
+- repo: https://github.com/jumanjihouse/pre-commit-hooks
+  rev: 2.1.5  # or specific git tag
+  hooks:
+    - id: shellcheck
+      additional_dependencies: []
+    - id: markdownlint
+
+- repo: https://github.com/codespell-project/codespell
+  rev: v2.0.0  # or specific git tag
+  hooks:
+    - id: codespell
+      name: codespell
+      description: Checks for common misspellings in text files.
+      entry: codespell
+      language: python
+      types: [text]

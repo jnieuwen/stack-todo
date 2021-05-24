@@ -28,6 +28,7 @@ function st-next() {
 function st-pop() {
     tail -n1 "${STACKTODOFILE}" | sed 's/^/DONE: /'
     sed -i '' '$d' "${STACKTODOFILE}"
+    st-show
 }
 
 function st-rev() {

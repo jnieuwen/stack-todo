@@ -32,13 +32,12 @@
 export STACKTODOFILE="${STACKTODOFILE:-${HOME}/.todo-stack}"
 
 function st-version() {
-    echo "v0.1"
+    echo "v0.2"
 }
 
 function st-show() {
     if [ -f "${STACKTODOFILE}" ]
     then
-        # TODO fix mac vs linux
         if [ "$(uname -s)x" = "Darwinx" ]
         then
             date -v"+$(awk 'BEGIN { sum=0} ; { sum+=$1} ; END { print sum }' "${STACKTODOFILE}")M" +"ETA: %H:%M"
@@ -86,7 +85,12 @@ function st-next() {
 
 function st-pop() {
     tail -n1 "${STACKTODOFILE}" | sed 's/^/DONE: /'
-    sed -i '' '$d' "${STACKTODOFILE}"
+    if [ "$(uname -s)x" = "Darwinx" ]
+    then
+        sed -i '' '$d' "${STACKTODOFILE}"
+    else
+        sed -i'' '$d' "${STACKTODOFILE}"
+    fi
     st-show
 }
 
@@ -100,5 +104,10 @@ function st-dump() {
 }
 
 function st-clear() {
-    sed -i '' '1,$d' "${STACKTODOFILE}"
+    if [ "$(uname -s)x" = "Darwinx" ]
+    then
+        sed -i '' '1,$d' "${STACKTODOFILE}"
+    else
+        sed -i'' '1,$d' "${STACKTODOFILE}"
+    fi
 }

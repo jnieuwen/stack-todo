@@ -100,7 +100,18 @@ function st-rev() {
 }
 
 function st-dump() {
-    cat "${STACKTODOFILE}"
+    timecounter=0
+    time=0
+    tac "${STACKTODOFILE}" | while read -r -n time line
+    do
+        timecounter=$(( timecounter + time ))
+        if [ "$(uname -s)x" = "Darwinx" ]
+        then
+            echo "$(date -v+"${timecounter}M" +"%H:%M") ${line}"
+        else
+            echo "$(date -d+"${timecounter}minutes" +"%H:%M") ${line}"
+        fi
+    done
 }
 
 function st-clear() {

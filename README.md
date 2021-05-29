@@ -13,12 +13,12 @@ In your shell config rc, source the stack.sh file from this repo.
 
 Show the current todo item.
 
-### st-push
+### st-push / st-top
 
 Push a new todo on the stack. The first element of the todo
 should be a time estimate in minutes.
 
-### st-shift
+### st-shift / st-bottom
 
 Put a todo at the bottom of the stack. The first element of the todo
 should be a time estimate in minutes.

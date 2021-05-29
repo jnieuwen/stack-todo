@@ -63,6 +63,10 @@ function st-push() {
     fi
 }
 
+function st-top() {
+    st-push "$@"
+}
+
 function st-shift() {
     # Check if first elements are minutes.
     if (( $1 )) 2>/dev/null
@@ -73,6 +77,10 @@ function st-shift() {
     else
         echo "Not in <minutes> <todo> format"
     fi
+}
+
+function st-bottom() {
+    st-shift "$@"
 }
 
 function st-next() {

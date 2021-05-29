@@ -147,3 +147,13 @@ function st-finish() {
         fi
     fi
 }
+
+function st-edit() {
+    "${EDITOR}" "${STACKTODOFILE}"
+}
+
+function st-bury() {
+   tail -n1 "${STACKTODOFILE}" > "${STACKTODOFILE}.tmp"
+   sed '$d' "${STACKTODOFILE}" >> "${STACKTODOFILE}.tmp"
+   mv "${STACKTODOFILE}.tmp" "${STACKTODOFILE}"
+}

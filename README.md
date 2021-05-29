@@ -49,3 +49,12 @@ Clear the complete stack of todo's.
 ### st-finish
 
 Show the expected end time of all items on the stack.
+
+### st-edit
+
+Open the todo file in an editor
+
+### st-burry
+
+Burry the item at the top of the stack at the bottom. Added to help politicians
+out.

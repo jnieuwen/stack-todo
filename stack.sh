@@ -32,19 +32,24 @@
 export STACKTODOFILE="${STACKTODOFILE:-${HOME}/.todo-stack}"
 
 function st-version() {
-    echo "v0.2"
+    echo "v0.3"
 }
 
 function st-show() {
     if [ -f "${STACKTODOFILE}" ]
     then
-        if [ "$(uname -s)x" = "Darwinx" ]
-        then
-            date -v"+$(awk 'BEGIN { sum=0} ; { sum+=$1} ; END { print sum }' "${STACKTODOFILE}")M" +"ETA: %H:%M"
-        else
-            date -d"+$(awk 'BEGIN { sum=0} ; { sum+=$1} ; END { print sum }' "${STACKTODOFILE}")minutes" +"ETA: %H:%M"
-        fi
-        tail -n1 "${STACKTODOFILE}" | sed 's/^/NOW: /'
+        time=0
+        timecounter=0
+        tail -n1 "${STACKTODOFILE}" | while read -r -n time line
+        do
+            timecounter=$(( timecounter + time ))
+            if [ "$(uname -s)x" = "Darwinx" ]
+            then
+                echo "$(date -v+"${timecounter}M" +"%H:%M") ${line}"
+            else
+                echo "$(date -d+"${timecounter}minutes" +"%H:%M") ${line}"
+            fi
+        done
     fi
 }
 
@@ -58,6 +63,10 @@ function st-push() {
     fi
 }
 
+function st-top() {
+    st-push "$@"
+}
+
 function st-shift() {
     # Check if first elements are minutes.
     if (( $1 )) 2>/dev/null
@@ -68,6 +77,10 @@ function st-shift() {
     else
         echo "Not in <minutes> <todo> format"
     fi
+}
+
+function st-bottom() {
+    st-shift "$@"
 }
 
 function st-next() {
@@ -100,7 +113,18 @@ function st-rev() {
 }
 
 function st-dump() {
-    cat "${STACKTODOFILE}"
+    timecounter=0
+    time=0
+    tac "${STACKTODOFILE}" | while read -r -n time line
+    do
+        timecounter=$(( timecounter + time ))
+        if [ "$(uname -s)x" = "Darwinx" ]
+        then
+            echo "$(date -v+"${timecounter}M" +"%H:%M") ${line}"
+        else
+            echo "$(date -d+"${timecounter}minutes" +"%H:%M") ${line}"
+        fi
+    done
 }
 
 function st-clear() {
@@ -110,4 +134,26 @@ function st-clear() {
     else
         sed -i'' '1,$d' "${STACKTODOFILE}"
     fi
+}
+
+function st-finish() {
+    if [ -f "${STACKTODOFILE}" ]
+    then
+        if [ "$(uname -s)x" = "Darwinx" ]
+        then
+            date -v"+$(awk 'BEGIN { sum=0} ; { sum+=$1} ; END { print sum }' "${STACKTODOFILE}")M" +"ETA: %H:%M"
+        else
+            date -d"+$(awk 'BEGIN { sum=0} ; { sum+=$1} ; END { print sum }' "${STACKTODOFILE}")minutes" +"ETA: %H:%M"
+        fi
+    fi
+}
+
+function st-edit() {
+    "${EDITOR}" "${STACKTODOFILE}"
+}
+
+function st-bury() {
+   tail -n1 "${STACKTODOFILE}" > "${STACKTODOFILE}.tmp"
+   sed '$d' "${STACKTODOFILE}" >> "${STACKTODOFILE}.tmp"
+   mv "${STACKTODOFILE}.tmp" "${STACKTODOFILE}"
 }

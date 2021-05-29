@@ -122,3 +122,15 @@ function st-clear() {
         sed -i'' '1,$d' "${STACKTODOFILE}"
     fi
 }
+
+function st-finish() {
+    if [ -f "${STACKTODOFILE}" ]
+    then
+        if [ "$(uname -s)x" = "Darwinx" ]
+        then
+            date -v"+$(awk 'BEGIN { sum=0} ; { sum+=$1} ; END { print sum }' "${STACKTODOFILE}")M" +"ETA: %H:%M"
+        else
+            date -d"+$(awk 'BEGIN { sum=0} ; { sum+=$1} ; END { print sum }' "${STACKTODOFILE}")minutes" +"ETA: %H:%M"
+        fi
+    fi
+}

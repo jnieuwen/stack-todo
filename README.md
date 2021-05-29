@@ -45,3 +45,7 @@ Dump the complete stack of todo's.
 ### st-clear
 
 Clear the complete stack of todo's.
+
+### st-finish
+
+Show the expected end time of all items on the stack.

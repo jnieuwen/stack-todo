@@ -38,13 +38,18 @@ function st-version() {
 function st-show() {
     if [ -f "${STACKTODOFILE}" ]
     then
-        if [ "$(uname -s)x" = "Darwinx" ]
-        then
-            date -v"+$(awk 'BEGIN { sum=0} ; { sum+=$1} ; END { print sum }' "${STACKTODOFILE}")M" +"ETA: %H:%M"
-        else
-            date -d"+$(awk 'BEGIN { sum=0} ; { sum+=$1} ; END { print sum }' "${STACKTODOFILE}")minutes" +"ETA: %H:%M"
-        fi
-        tail -n1 "${STACKTODOFILE}" | sed 's/^/NOW: /'
+        time=0
+        timecounter=0
+        tail -n1 "${STACKTODOFILE}" | while read -r -n time line
+        do
+            timecounter=$(( timecounter + time ))
+            if [ "$(uname -s)x" = "Darwinx" ]
+            then
+                echo "$(date -v+"${timecounter}M" +"%H:%M") ${line}"
+            else
+                echo "$(date -d+"${timecounter}minutes" +"%H:%M") ${line}"
+            fi
+        done
     fi
 }
 

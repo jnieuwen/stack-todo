@@ -153,7 +153,11 @@ function st-edit() {
 }
 
 function st-bury() {
-   tail -n1 "${STACKTODOFILE}" > "${STACKTODOFILE}.tmp"
-   sed '$d' "${STACKTODOFILE}" >> "${STACKTODOFILE}.tmp"
-   mv "${STACKTODOFILE}.tmp" "${STACKTODOFILE}"
+    tail -n1 "${STACKTODOFILE}" > "${STACKTODOFILE}.tmp"
+    sed '$d' "${STACKTODOFILE}" >> "${STACKTODOFILE}.tmp"
+    mv "${STACKTODOFILE}.tmp" "${STACKTODOFILE}"
+}
+
+function st-file() {
+    cat "${1}" >> "${STACKTODOFILE}"
 }

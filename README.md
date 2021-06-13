@@ -54,9 +54,9 @@ Show the expected end time of all items on the stack.
 
 Open the todo file in an editor
 
-### st-burry
+### st-bury
 
-Burry the item at the top of the stack at the bottom. Added to help politicians
+Bury the item at the top of the stack at the bottom. Added to help politicians
 out.
 
 ### st-file

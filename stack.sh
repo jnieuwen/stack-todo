@@ -32,7 +32,7 @@
 export STACKTODOFILE="${STACKTODOFILE:-${HOME}/.todo-stack}"
 
 function st-version() {
-    echo "v0.3"
+    echo "21.24.0"
 }
 
 function st-show() {
@@ -55,7 +55,7 @@ function st-show() {
 
 function st-push() {
     # Check if first elements are minutes.
-    if (( $1 )) 2>/dev/null
+    if [ "${1}" = '0' ] || (( $1 )) 2>/dev/null
     then
         echo "$*" >> "${STACKTODOFILE}"
     else
@@ -69,7 +69,7 @@ function st-top() {
 
 function st-shift() {
     # Check if first elements are minutes.
-    if (( $1 )) 2>/dev/null
+    if [ "${1}" = '0' ] || (( $1 )) 2>/dev/null
     then
         echo "$*" > "${STACKTODOFILE}.tmp"
         cat "${STACKTODOFILE}" >> "${STACKTODOFILE}.tmp"
@@ -85,7 +85,7 @@ function st-bottom() {
 
 function st-next() {
     # Check if first elements are minutes.
-    if (( $1 )) 2>/dev/null
+    if [ "${1}" = '0' ] || (( $1 )) 2>/dev/null
     then
         sed '$d' "${STACKTODOFILE}" > "${STACKTODOFILE}.tmp"
         echo "$*" >> "${STACKTODOFILE}.tmp"
@@ -153,7 +153,11 @@ function st-edit() {
 }
 
 function st-bury() {
-   tail -n1 "${STACKTODOFILE}" > "${STACKTODOFILE}.tmp"
-   sed '$d' "${STACKTODOFILE}" >> "${STACKTODOFILE}.tmp"
-   mv "${STACKTODOFILE}.tmp" "${STACKTODOFILE}"
+    tail -n1 "${STACKTODOFILE}" > "${STACKTODOFILE}.tmp"
+    sed '$d' "${STACKTODOFILE}" >> "${STACKTODOFILE}.tmp"
+    mv "${STACKTODOFILE}.tmp" "${STACKTODOFILE}"
+}
+
+function st-file() {
+    cat "${1}" >> "${STACKTODOFILE}"
 }

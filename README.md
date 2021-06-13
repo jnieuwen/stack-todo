@@ -58,3 +58,9 @@ Open the todo file in an editor
 
 Burry the item at the top of the stack at the bottom. Added to help politicians
 out.
+
+### st-file
+
+Put the items from "file" on top of the stack. Starting with adding the first
+line, than the second etc. So the last line of the file ends up on top of the
+stack.

@@ -64,3 +64,7 @@ out.
 Put the items from "file" on top of the stack. Starting with adding the first
 line, than the second etc. So the last line of the file ends up on top of the
 stack.
+
+### st-swap
+
+Switch the order of the first 2 items on top of the stack.

@@ -68,3 +68,8 @@ stack.
 ### st-swap
 
 Switch the order of the first 2 items on top of the stack.
+
+### st-todoist-import
+
+Import todays todo's from todoist and put them on the stack. Requires that a
+`$HOME/.todoist_api.key` file is present

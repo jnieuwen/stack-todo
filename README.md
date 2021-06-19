@@ -54,9 +54,9 @@ Show the expected end time of all items on the stack.
 
 Open the todo file in an editor
 
-### st-burry
+### st-bury
 
-Burry the item at the top of the stack at the bottom. Added to help politicians
+Bury the item at the top of the stack at the bottom. Added to help politicians
 out.
 
 ### st-file
@@ -64,3 +64,12 @@ out.
 Put the items from "file" on top of the stack. Starting with adding the first
 line, than the second etc. So the last line of the file ends up on top of the
 stack.
+
+### st-swap
+
+Switch the order of the first 2 items on top of the stack.
+
+### st-todoist-import
+
+Import todays todo's from todoist and put them on the stack. Requires that a
+`$HOME/.todoist_api.key` file is present

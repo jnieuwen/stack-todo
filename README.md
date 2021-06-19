@@ -35,7 +35,7 @@ Mark the current todo as done and show the new current one.
 ### st-rev
 
 Reverse the order of the stack. This is handy when you start with an empty list
-and add the most important one first then the next etc. And than want to start
+and add the most important one first then the next etc. And then want to start
 working with the most important one first.
 
 ### st-dump
@@ -62,7 +62,7 @@ out.
 ### st-file
 
 Put the items from "file" on top of the stack. Starting with adding the first
-line, than the second etc. So the last line of the file ends up on top of the
+line, then the second etc. So the last line of the file ends up on top of the
 stack.
 
 ### st-swap

@@ -15,18 +15,15 @@ Show the current todo item.
 
 ### st-push / st-top
 
-Push a new todo on the stack. The first element of the todo
-should be a time estimate in minutes.
+Push a new todo on the stack.
 
 ### st-shift / st-bottom
 
-Put a todo at the bottom of the stack. The first element of the todo
-should be a time estimate in minutes.
+Put a todo at the bottom of the stack.
 
 ### st-next
 
-Put a todo directly below the todo at the top of the stack. The first element
-of the todo should be a time estimate in minutes.
+Put a todo directly below the todo at the top of the stack.
 
 ### st-pop
 
@@ -45,10 +42,6 @@ Dump the complete stack of todo's.
 ### st-clear
 
 Clear the complete stack of todo's.
-
-### st-finish
-
-Show the expected end time of all items on the stack.
 
 ### st-edit
 

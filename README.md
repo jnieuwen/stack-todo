@@ -13,7 +13,7 @@ In your shell config rc, source the stack.sh file from this repo.
 
 Show the current todo item.
 
-### st-push / st-top
+### st-push / st-top / st-add
 
 Push a new todo on the stack.
 
@@ -62,9 +62,18 @@ stack.
 
 Switch the order of the first 2 items on top of the stack.
 
-### st-rise
+### st-rise "string"
 
-Move items containing the regexpression provided to the top of the stack.
+Move items containing the regular expression "string" to the top of the stack.
+
+### st-labels
+
+Show all labels that are present in the stack. A label being a string starting
+with @ en terminated by a whitespace character.
+
+### st-filter "string"
+
+Show all items on the stack containing "string"
 
 ### st-todoist-import
 

@@ -51,6 +51,10 @@ function st-top() {
     st-push "$@"
 }
 
+function st-add() {
+    st-push "$@"
+}
+
 function st-shift() {
     echo "$*" > "${STACKTODOFILE}.tmp"
     cat "${STACKTODOFILE}" >> "${STACKTODOFILE}.tmp"
@@ -115,6 +119,14 @@ function st-rise() {
     grep -v "$*" "${STACKTODOFILE}" > "${STACKTODOFILE}.tmp"
     grep "$*" "${STACKTODOFILE}" >> "${STACKTODOFILE}.tmp"
     mv "${STACKTODOFILE}.tmp" "${STACKTODOFILE}"
+}
+
+function st-labels {
+    tr " " '\n' < "${STACKTODOFILE}" | grep "^@" | uniq
+}
+
+function st-filter {
+    grep "$*" "${STACKTODOFILE}"
 }
 
 

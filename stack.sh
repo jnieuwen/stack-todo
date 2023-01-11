@@ -111,6 +111,13 @@ function st-file() {
     cat "${1}" >> "${STACKTODOFILE}"
 }
 
+function st-rise() {
+    grep -v "$*" "${STACKTODOFILE}" > "${STACKTODOFILE}.tmp"
+    grep "$*" "${STACKTODOFILE}" >> "${STACKTODOFILE}.tmp"
+    mv "${STACKTODOFILE}.tmp" "${STACKTODOFILE}"
+}
+
+
 function st-swap() {
     sed '$d' "${STACKTODOFILE}" | sed '$d' > "${STACKTODOFILE}.tmp"
     tail -n2 "${STACKTODOFILE}" | tac >> "${STACKTODOFILE}.tmp"

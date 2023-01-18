@@ -32,7 +32,7 @@
 export STACKTODOFILE="${STACKTODOFILE:-${HOME}/.todo-stack}"
 
 function st-version() {
-    echo "22.01.01"
+    echo "23.01.18"
 }
 
 function st-show() {
@@ -126,7 +126,7 @@ function st-labels {
 }
 
 function st-filter {
-    grep "$*" "${STACKTODOFILE}"
+    grep "$*" "${STACKTODOFILE}" | tac
 }
 
 

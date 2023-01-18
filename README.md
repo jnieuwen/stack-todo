@@ -85,3 +85,7 @@ Import todays todo's from todoist and put them on the stack. Requires that a
 ### st-count
 
 Show the number of items on the stack.
+
+### st-before
+
+Show the place in the stack of the items matching "string"

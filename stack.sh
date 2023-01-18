@@ -157,3 +157,7 @@ function st-todoist-import {
 function st-count() {
     wc -l "${STACKTODOFILE}"
 }
+
+function st-before() {
+    tac "${STACKTODOFILE}" | nl | grep "$*"
+}

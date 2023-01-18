@@ -27,7 +27,9 @@ Put a todo directly below the todo at the top of the stack.
 
 ### st-pop
 
-Mark the current todo as done and show the new current one.
+Mark the current todo as done and show the new current one. If the
+STACKTODOLOGFILE variable is set the todo will be logged to the file pointed to
+by STACKTODOLOGFILE.
 
 ### st-rev
 
@@ -79,3 +81,7 @@ Show all items on the stack containing "string"
 
 Import todays todo's from todoist and put them on the stack. Requires that a
 `$HOME/.todoist_api.key` file is present
+
+### st-count
+
+Show the number of items on the stack.

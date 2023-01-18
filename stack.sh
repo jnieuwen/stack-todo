@@ -74,6 +74,10 @@ function st-next() {
 
 function st-pop() {
     tail -n1 "${STACKTODOFILE}" | sed 's/^/DONE: /'
+    if [ -n "${STACKTODOLOGFILE}" ]
+    then
+        tail -n1 "${STACKTODOFILE}" > "${STACKTODOLOGFILE}"
+    fi
     if [ "$(uname -s)x" = "Darwinx" ]
     then
         sed -i '' '$d' "${STACKTODOFILE}"
@@ -148,4 +152,8 @@ function st-todoist-import {
     else
         echo "No ${HOME}/.todoist_api.key file present"
     fi
+}
+
+function st-count() {
+    wc -l "${STACKTODOFILE}"
 }

@@ -89,3 +89,7 @@ Show the number of items on the stack.
 ### st-before
 
 Show the place in the stack of the items matching "string"
+
+### st-log
+
+Show the contents of the STACKTODOLOGFILE

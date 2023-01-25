@@ -76,7 +76,7 @@ function st-pop() {
     tail -n1 "${STACKTODOFILE}" | sed 's/^/DONE: /'
     if [ -n "${STACKTODOLOGFILE}" ]
     then
-        tail -n1 "${STACKTODOFILE}" > "${STACKTODOLOGFILE}"
+        tail -n1 "${STACKTODOFILE}" >> "${STACKTODOLOGFILE}"
     fi
     if [ "$(uname -s)x" = "Darwinx" ]
     then
@@ -160,4 +160,13 @@ function st-count() {
 
 function st-before() {
     tac "${STACKTODOFILE}" | nl | grep "$*"
+}
+
+function st-log() {
+    if [ -n "${STACKTODOLOGFILE}" ]
+    then
+        cat "${STACKTODOLOGFILE}"
+    else
+        echo "STACKTODOLOGFILE is undefined"
+    fi
 }

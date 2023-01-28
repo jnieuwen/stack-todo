@@ -32,7 +32,7 @@
 export STACKTODOFILE="${STACKTODOFILE:-${HOME}/.todo-stack}"
 
 function st-version() {
-    echo "23.01.18"
+    echo "23.04.1"
 }
 
 function st-show() {

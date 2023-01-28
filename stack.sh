@@ -32,51 +32,33 @@
 export STACKTODOFILE="${STACKTODOFILE:-${HOME}/.todo-stack}"
 
 function st-version() {
-    echo "21.24.5"
+    echo "23.04.1"
 }
 
 function st-show() {
     if [ -f "${STACKTODOFILE}" ]
     then
-        time=0
-        timecounter=0
-        tail -n1 "${STACKTODOFILE}" | while read -r -n time line
-        do
-            timecounter=$(( timecounter + time ))
-            if [ "$(uname -s)x" = "Darwinx" ]
-            then
-                echo "$(date -v+"${timecounter}M" +"%H:%M") ${line}"
-            else
-                echo "$(date -d+"${timecounter}minutes" +"%H:%M") ${line}"
-            fi
-        done
+        tail -n1 "${STACKTODOFILE}"
     fi
 }
 
 function st-push() {
     # Check if first elements are minutes.
-    if [ "${1}" = '0' ] || (( $1 )) 2>/dev/null
-    then
-        echo "$*" >> "${STACKTODOFILE}"
-    else
-        echo "Not in <minutes> <todo> format"
-    fi
+    echo "$*" >> "${STACKTODOFILE}"
 }
 
 function st-top() {
     st-push "$@"
 }
 
+function st-add() {
+    st-push "$@"
+}
+
 function st-shift() {
-    # Check if first elements are minutes.
-    if [ "${1}" = '0' ] || (( $1 )) 2>/dev/null
-    then
-        echo "$*" > "${STACKTODOFILE}.tmp"
-        cat "${STACKTODOFILE}" >> "${STACKTODOFILE}.tmp"
-        mv "${STACKTODOFILE}.tmp" "${STACKTODOFILE}"
-    else
-        echo "Not in <minutes> <todo> format"
-    fi
+    echo "$*" > "${STACKTODOFILE}.tmp"
+    cat "${STACKTODOFILE}" >> "${STACKTODOFILE}.tmp"
+    mv "${STACKTODOFILE}.tmp" "${STACKTODOFILE}"
 }
 
 function st-bottom() {
@@ -84,20 +66,18 @@ function st-bottom() {
 }
 
 function st-next() {
-    # Check if first elements are minutes.
-    if [ "${1}" = '0' ] || (( $1 )) 2>/dev/null
-    then
-        sed '$d' "${STACKTODOFILE}" > "${STACKTODOFILE}.tmp"
-        echo "$*" >> "${STACKTODOFILE}.tmp"
-        tail -n1 "${STACKTODOFILE}" >> "${STACKTODOFILE}.tmp"
-        mv "${STACKTODOFILE}.tmp" "${STACKTODOFILE}"
-    else
-        echo "Not in <minutes> <todo> format"
-    fi
+    sed '$d' "${STACKTODOFILE}" > "${STACKTODOFILE}.tmp"
+    echo "$*" >> "${STACKTODOFILE}.tmp"
+    tail -n1 "${STACKTODOFILE}" >> "${STACKTODOFILE}.tmp"
+    mv "${STACKTODOFILE}.tmp" "${STACKTODOFILE}"
 }
 
 function st-pop() {
     tail -n1 "${STACKTODOFILE}" | sed 's/^/DONE: /'
+    if [ -n "${STACKTODOLOGFILE}" ]
+    then
+        tail -n1 "${STACKTODOFILE}" >> "${STACKTODOLOGFILE}"
+    fi
     if [ "$(uname -s)x" = "Darwinx" ]
     then
         sed -i '' '$d' "${STACKTODOFILE}"
@@ -113,18 +93,7 @@ function st-rev() {
 }
 
 function st-dump() {
-    timecounter=0
-    time=0
-    tac "${STACKTODOFILE}" | while read -r -n time line
-    do
-        timecounter=$(( timecounter + time ))
-        if [ "$(uname -s)x" = "Darwinx" ]
-        then
-            echo "$(date -v+"${timecounter}M" +"%H:%M") ${line}"
-        else
-            echo "$(date -d+"${timecounter}minutes" +"%H:%M") ${line}"
-        fi
-    done
+    tac "${STACKTODOFILE}"
 }
 
 function st-clear() {
@@ -133,18 +102,6 @@ function st-clear() {
         sed -i '' '1,$d' "${STACKTODOFILE}"
     else
         sed -i'' '1,$d' "${STACKTODOFILE}"
-    fi
-}
-
-function st-finish() {
-    if [ -f "${STACKTODOFILE}" ]
-    then
-        if [ "$(uname -s)x" = "Darwinx" ]
-        then
-            date -v"+$(awk 'BEGIN { sum=0} ; { sum+=$1} ; END { print sum }' "${STACKTODOFILE}")M" +"ETA: %H:%M"
-        else
-            date -d"+$(awk 'BEGIN { sum=0} ; { sum+=$1} ; END { print sum }' "${STACKTODOFILE}")minutes" +"ETA: %H:%M"
-        fi
     fi
 }
 
@@ -162,6 +119,21 @@ function st-file() {
     cat "${1}" >> "${STACKTODOFILE}"
 }
 
+function st-rise() {
+    grep -v "$*" "${STACKTODOFILE}" > "${STACKTODOFILE}.tmp"
+    grep "$*" "${STACKTODOFILE}" >> "${STACKTODOFILE}.tmp"
+    mv "${STACKTODOFILE}.tmp" "${STACKTODOFILE}"
+}
+
+function st-labels {
+    tr " " '\n' < "${STACKTODOFILE}" | grep "^@" | uniq
+}
+
+function st-filter {
+    grep "$*" "${STACKTODOFILE}" | tac
+}
+
+
 function st-swap() {
     sed '$d' "${STACKTODOFILE}" | sed '$d' > "${STACKTODOFILE}.tmp"
     tail -n2 "${STACKTODOFILE}" | tac >> "${STACKTODOFILE}.tmp"
@@ -172,12 +144,29 @@ function st-todoist-import {
     if [ -f "${HOME}/.todoist_api.key" ]
     then
         # Get the ones without a timestamp
-        curl "https://api.todoist.com/rest/v1/tasks?token=$(cat "${HOME}/.todoist_api.key")&filter=%28assigned%20to:%20me%20|%20%21shared%29%20%26today" 2>/dev/null| \
-            jq 'map(select(.due.datetime == null)) | sort_by(.due.datetime) | .[].content' | sed 's/^/0 /' >> "${STACKTODOFILE}"
+        curl "https://api.todoist.com/rest/v2/tasks?token=$(cat "${HOME}/.todoist_api.key")&filter=%28assigned%20to:%20me%20|%20%21shared%29%20%26today" 2>/dev/null| \
+            jq 'map(select(.due.datetime == null)) | sort_by(.due.datetime) | .[].content' >> "${STACKTODOFILE}"
         # Get the timestamp ones.
-        curl "https://api.todoist.com/rest/v1/tasks?token=$(cat "${HOME}/.todoist_api.key")&filter=%28assigned%20to:%20me%20|%20%21shared%29%20%26today" 2>/dev/null| \
-            jq 'map(select(.due.datetime != null)) | sort_by(.due.datetime) | .[].content' | sed 's/^/0 /' | tac >> "${STACKTODOFILE}"
+        curl "https://api.todoist.com/rest/v2/tasks?token=$(cat "${HOME}/.todoist_api.key")&filter=%28assigned%20to:%20me%20|%20%21shared%29%20%26today" 2>/dev/null| \
+            jq 'map(select(.due.datetime != null)) | sort_by(.due.datetime) | .[].content' | tac >> "${STACKTODOFILE}"
     else
         echo "No ${HOME}/.todoist_api.key file present"
+    fi
+}
+
+function st-count() {
+    wc -l "${STACKTODOFILE}"
+}
+
+function st-before() {
+    tac "${STACKTODOFILE}" | nl | grep "$*"
+}
+
+function st-log() {
+    if [ -n "${STACKTODOLOGFILE}" ]
+    then
+        cat "${STACKTODOLOGFILE}"
+    else
+        echo "STACKTODOLOGFILE is undefined"
     fi
 }

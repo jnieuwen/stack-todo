@@ -68,6 +68,10 @@ Switch the order of the first 2 items on top of the stack.
 
 Move items containing the regular expression "string" to the top of the stack.
 
+### st-lower "string"
+
+Move items containing the regular expression "string" to the bottom of the stack.
+
 ### st-labels
 
 Show all labels that are present in the stack. A label being a string starting

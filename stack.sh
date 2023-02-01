@@ -125,6 +125,12 @@ function st-rise() {
     mv "${STACKTODOFILE}.tmp" "${STACKTODOFILE}"
 }
 
+function st-lower() {
+    grep "$*" "${STACKTODOFILE}" > "${STACKTODOFILE}.tmp"
+    grep -v "$*" "${STACKTODOFILE}" >> "${STACKTODOFILE}.tmp"
+    mv "${STACKTODOFILE}.tmp" "${STACKTODOFILE}"
+}
+
 function st-labels {
     tr " " '\n' < "${STACKTODOFILE}" | grep "^@" | uniq
 }

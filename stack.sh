@@ -87,6 +87,11 @@ function st-pop() {
     st-show
 }
 
+function st-commit() {
+    git commit -m "$(tail -n1 "${STACKTODOFILE}")"
+    st-pop
+}
+
 function st-rev() {
     tac "${STACKTODOFILE}" > "${STACKTODOFILE}.tmp"
     mv "${STACKTODOFILE}.tmp" "${STACKTODOFILE}"

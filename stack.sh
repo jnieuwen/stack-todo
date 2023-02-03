@@ -88,7 +88,7 @@ function st-pop() {
 }
 
 function st-commit() {
-    git commit -m "$(tail -n1 "${STACKTODOFILE}")"
+    git commit -m "$(tail -n1 "${STACKTODOFILE}")" || exit
     st-pop
 }
 

@@ -31,6 +31,11 @@ Mark the current todo as done and show the new current one. If the
 STACKTODOLOGFILE variable is set the todo will be logged to the file pointed to
 by STACKTODOLOGFILE.
 
+### st-rm
+
+Remove the item from the top of the stack, but do not write it to
+STACKTODOLOGFILE
+
 ### st-commit
 
 Do a git commit -m "item on top of the stack" and pop the top of the stack.

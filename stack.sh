@@ -87,6 +87,17 @@ function st-pop() {
     st-show
 }
 
+function st-rm() {
+    tail -n1 "${STACKTODOFILE}" | sed 's/^/Deleted: /'
+    if [ "$(uname -s)x" = "Darwinx" ]
+    then
+        sed -i '' '$d' "${STACKTODOFILE}"
+    else
+        sed -i'' '$d' "${STACKTODOFILE}"
+    fi
+    st-show
+}
+
 function st-commit() {
     git commit -m "$(tail -n1 "${STACKTODOFILE}")" || exit
     st-pop

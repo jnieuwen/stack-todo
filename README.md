@@ -36,6 +36,10 @@ by STACKTODOLOGFILE.
 Remove the item from the top of the stack, but do not write it to
 STACKTODOLOGFILE
 
+### st-rename
+
+Change the text of the item on top of the stack.
+
 ### st-commit
 
 Do a git commit -m "item on top of the stack" and pop the top of the stack.

@@ -98,6 +98,16 @@ function st-rm() {
     st-show
 }
 
+function st-rename() {
+    if [ "$(uname -s)x" = "Darwinx" ]
+    then
+        sed -i '' '$d' "${STACKTODOFILE}"
+    else
+        sed -i'' '$d' "${STACKTODOFILE}"
+    fi
+    st-push "$@"
+}
+
 function st-commit() {
     git commit -m "$(tail -n1 "${STACKTODOFILE}")" || exit
     st-pop

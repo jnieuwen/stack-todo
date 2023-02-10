@@ -76,7 +76,7 @@ function st-pop() {
     tail -n1 "${STACKTODOFILE}" | sed 's/^/DONE: /'
     if [ -n "${STACKTODOLOGFILE}" ]
     then
-        tail -n1 "${STACKTODOFILE}" >> "${STACKTODOLOGFILE}"
+        (echo -n "$(date +'%Y-%m-%d %H:%M:%S:') " ; tail -n1 "${STACKTODOFILE}") >> "${STACKTODOLOGFILE}"
     fi
     if [ "$(uname -s)x" = "Darwinx" ]
     then

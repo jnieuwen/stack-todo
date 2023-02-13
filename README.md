@@ -110,3 +110,7 @@ Show the place in the stack of the items matching "string"
 ### st-log
 
 Show the contents of the STACKTODOLOGFILE
+
+### st-up
+
+Show the 5 next items of the stack. st-up is from upcoming.

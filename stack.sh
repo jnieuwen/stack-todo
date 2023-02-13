@@ -42,6 +42,13 @@ function st-show() {
     fi
 }
 
+function st-up() {
+    if [ -f "${STACKTODOFILE}" ]
+    then
+        tail -n5 "${STACKTODOFILE}" | tac
+    fi
+}
+
 function st-push() {
     # Check if first elements are minutes.
     echo "$*" >> "${STACKTODOFILE}"

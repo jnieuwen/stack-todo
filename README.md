@@ -114,3 +114,8 @@ Show the contents of the STACKTODOLOGFILE
 ### st-up
 
 Show the 5 next items of the stack. st-up is from upcoming.
+
+### st-sort
+
+Sort the stack. I use this in combination with HH:MM at the beginning of the
+tasks for timeblocking (st-edit is also handy here).

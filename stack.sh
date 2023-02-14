@@ -209,3 +209,7 @@ function st-log() {
         echo "STACKTODOLOGFILE is undefined"
     fi
 }
+
+function st-sort() {
+    sort -r -o "${STACKTODOFILE}" "${STACKTODOFILE}"
+}

@@ -184,10 +184,10 @@ function st-todoist-import {
     then
         # Get the ones without a timestamp
         curl "https://api.todoist.com/rest/v2/tasks?token=$(cat "${HOME}/.todoist_api.key")&filter=%28assigned%20to:%20me%20|%20%21shared%29%20%26today" 2>/dev/null| \
-            jq 'map(select(.due.datetime == null)) | sort_by(.due.datetime) | .[].content' >> "${STACKTODOFILE}"
+            jq 'map(select(.due.datetime == null)) | sort_by(.due.datetime) | .[].content' | sed 's/^"//;s/"$//' >> "${STACKTODOFILE}"
         # Get the timestamp ones.
         curl "https://api.todoist.com/rest/v2/tasks?token=$(cat "${HOME}/.todoist_api.key")&filter=%28assigned%20to:%20me%20|%20%21shared%29%20%26today" 2>/dev/null| \
-            jq 'map(select(.due.datetime != null)) | sort_by(.due.datetime) | .[].content' | tac >> "${STACKTODOFILE}"
+            jq 'map(select(.due.datetime != null)) | sort_by(.due.datetime) | .[].content' | sed 's/^"//;s/"$//' | tac >> "${STACKTODOFILE}"
     else
         echo "No ${HOME}/.todoist_api.key file present"
     fi
